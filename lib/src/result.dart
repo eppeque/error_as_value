@@ -167,11 +167,7 @@ class Result<T, E> {
   /// final Result<int, String> y = Result.err("error");
   /// print(y.unwrapOr(default)); // 2
   /// ```
-  T unwrapOr(T defaultValue) {
-    if (_value != null) return _value;
-
-    return defaultValue;
-  }
+  T unwrapOr(T defaultValue) => _value ?? defaultValue;
 
   /// Returns the contained `ok` value or computes it from a closure.
   ///
@@ -182,13 +178,7 @@ class Result<T, E> {
   /// print(Result.ok(2).unwrapOrElse(count)); // 2
   /// print(Result.err("foo").unwrapOrElse(count)); // 3
   /// ```
-  T unwrapOrElse(T Function(E) callback) {
-    if (_value != null) return _value;
-
-    if (_error != null) return callback(_error);
-
-    throw Exception(); // Unreachable
-  }
+  T unwrapOrElse(T Function(E) callback) => _value ?? callback(_error as E);
 
   /// Returns the contained `ok` value.
   ///
